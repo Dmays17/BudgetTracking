@@ -25,6 +25,27 @@ app.get('/',(req,res)=>{
     res.send('hello world')
 })
 
+app.get('/budget',(req,res)=>{
+    const q="SELECT * FROM budgettracker.itetms"
+    db.query(q,(err,data)=>{
+        if(err)return res.json(err)
+        return res.json(data)
+    })
+})
+
+app.post('/items',(res,req)=>{
+    const q="INSERT INTO `budgettracker`.`itetms` (`Items`,`Date`,`Price`) Values (?)"
+    const values=[
+        req.body.Items,
+        req.body.Date,
+        req.body.Price,
+    ]
+
+    db.query(q,[values],(err,data)=>{
+        if(err)return res.json(err)
+        return res.json(data)
+})
+});
 app.listen(3001,()=>{
     console.log("running on port 3001")
 })
